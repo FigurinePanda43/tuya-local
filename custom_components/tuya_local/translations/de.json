@@ -107,6 +107,26 @@
         }
     },
     "services": {
+        "list_cloud_devices": {
+            "name": "Cloud-Geräte auflisten",
+            "description": "Listet die Geräte in deinem Smart Life- oder Tuya-Konto auf, einschließlich ihrer Geräte-IDs und lokalen Schlüssel. Du benötigst somit kein Tuya-IoT-Entwicklerkonto, um die zur Einrichtung eines Geräts nötigen Angaben zu finden.",
+            "fields": {
+                "device_id": {
+                    "name": "Gerät",
+                    "description": "Nur das Gerät mit dieser Geräte-ID, UUID oder Node-ID melden. Leer lassen, um alle Geräte des Kontos zu melden."
+                }
+            }
+        },
+        "refresh_local_keys": {
+            "name": "Lokale Schlüssel aktualisieren",
+            "description": "Ruft die aktuellen lokalen Schlüssel aus deinem Smart Life- oder Tuya-Konto ab und aktualisiert alle eingerichteten Geräte, deren lokaler Schlüssel geändert wurde. Tuya ändert den lokalen Schlüssel bei jeder erneuten Kopplung in der App, wodurch die lokale Steuerung nicht mehr funktioniert.",
+            "fields": {
+                "dry_run": {
+                    "name": "Probelauf",
+                    "description": "Nur melden, bei welchen Geräten sich der lokale Schlüssel geändert hat, ohne deren Konfiguration zu ändern."
+                }
+            }
+        },
         "send_learned_ir_command": {
             "name": "Gelernten IR-Befehl senden",
             "description": "Senden Sie einen zuvor von der Fernbedienungsentität gelernten Fernbefehl an einen Infrarot-Emitter.",
@@ -1566,6 +1586,17 @@
                     }
                 }
             }
+        }
+    },
+    "exceptions": {
+        "cloud_not_logged_in": {
+            "message": "Nicht bei der Tuya-Cloud angemeldet. Füge zuerst ein Gerät über die Cloud-Option hinzu, um den QR-Code zu scannen und dich anzumelden."
+        },
+        "cloud_query_failed": {
+            "message": "Abfrage der Tuya-Cloud fehlgeschlagen: {error}"
+        },
+        "cloud_device_not_found": {
+            "message": "Kein Gerät mit {device_id} im Tuya-Konto gefunden."
         }
     }
 }

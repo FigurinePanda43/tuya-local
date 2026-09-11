@@ -107,6 +107,26 @@
         }
     },
     "services": {
+        "list_cloud_devices": {
+            "name": "List cloud devices",
+            "description": "Lists the devices in your Smart Life or Tuya account, including their device ids and local keys. This means you do not need a Tuya IoT developer account to find the information needed to set up a device.",
+            "fields": {
+                "device_id": {
+                    "name": "Device",
+                    "description": "Only report the device with this device id, uuid or node id. Leave empty to report every device in the account."
+                }
+            }
+        },
+        "refresh_local_keys": {
+            "name": "Refresh local keys",
+            "description": "Fetches the current local keys from your Smart Life or Tuya account, and updates any configured devices whose local key has been changed. Tuya changes the local key each time a device is re-paired in the app, which stops local control from working.",
+            "fields": {
+                "dry_run": {
+                    "name": "Dry run",
+                    "description": "Only report which devices have a changed local key, without updating their configuration."
+                }
+            }
+        },
         "send_learned_ir_command": {
             "name": "Send a learned remote command to infrared",
             "description": "Send a remote command that was previously learned by the remote entity to any infrared emitter.",
@@ -1566,6 +1586,17 @@
                     }
                 }
             }
+        }
+    },
+    "exceptions": {
+        "cloud_not_logged_in": {
+            "message": "Not logged in to the Tuya cloud. Add a device using the cloud option to scan the QR code and log in first."
+        },
+        "cloud_query_failed": {
+            "message": "Failed to query the Tuya cloud: {error}"
+        },
+        "cloud_device_not_found": {
+            "message": "No device matching {device_id} was found in the Tuya account."
         }
     }
 }

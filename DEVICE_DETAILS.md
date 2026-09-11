@@ -5,6 +5,22 @@ if you manually configure the devices.
 
 ## Finding your device ID and local key
 
+### Tuya Local cloud action
+
+If you have logged in to the cloud once through the config flow, the
+`tuya_local.list_cloud_devices` action reports the device id, local key and
+other details of every device in your Smart Life or Tuya account, without any
+need for a developer account. Run it from **Developer tools** > **Actions**:
+
+```yaml
+action: tuya_local.list_cloud_devices
+data: {}
+```
+
+See [the cloud actions section of README.md](README.md#cloud-actions) for
+details, including `tuya_local.refresh_local_keys`, which repairs configured
+devices after Tuya has changed their local key.
+
 ### Tuya IoT developer portal
 
 The easiest way to find your local key is with the Tuya Developer portal.

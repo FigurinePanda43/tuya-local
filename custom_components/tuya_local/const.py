@@ -27,3 +27,12 @@ TUYA_RESPONSE_MSG = "msg"
 TUYA_RESPONSE_QR_CODE = "qrcode"
 TUYA_RESPONSE_RESULT = "result"
 TUYA_RESPONSE_SUCCESS = "success"
+
+# Persistent storage of the cloud login session, so that the QR code scan
+# survives a Home Assistant restart.
+CLOUD_STORAGE_KEY = f"{DOMAIN}.cloud_session"
+CLOUD_STORAGE_VERSION = 1
+DATA_AUTH_CACHE = "auth_cache"
+
+SERVICE_LIST_CLOUD_DEVICES = "list_cloud_devices"
+SERVICE_REFRESH_LOCAL_KEYS = "refresh_local_keys"

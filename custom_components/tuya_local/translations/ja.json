@@ -107,6 +107,26 @@
         }
     },
     "services": {
+        "list_cloud_devices": {
+            "name": "クラウドのデバイスを一覧表示",
+            "description": "Smart Life または Tuya アカウントのデバイスを、デバイス ID とローカルキーを含めて一覧表示します。これにより、デバイスの設定に必要な情報を得るために Tuya IoT 開発者アカウントを用意する必要がなくなります。",
+            "fields": {
+                "device_id": {
+                    "name": "デバイス",
+                    "description": "このデバイス ID、uuid、node id を持つデバイスのみを表示します。空欄にすると、アカウント内のすべてのデバイスを表示します。"
+                }
+            }
+        },
+        "refresh_local_keys": {
+            "name": "ローカルキーを更新",
+            "description": "Smart Life または Tuya アカウントから現在のローカルキーを取得し、ローカルキーが変更された設定済みデバイスを更新します。Tuya はアプリでデバイスを再ペアリングするたびにローカルキーを変更するため、ローカル制御ができなくなります。",
+            "fields": {
+                "dry_run": {
+                    "name": "確認のみ",
+                    "description": "設定を更新せずに、どのデバイスのローカルキーが変更されたかを表示するだけにします。"
+                }
+            }
+        },
         "send_learned_ir_command": {
             "name": "学習した赤外線コマンドを送信",
             "description": "以前にリモートエンティティによって学習されたリモートコマンドを、任意の赤外線エミッタに送信します。",
@@ -1566,6 +1586,17 @@
                     }
                 }
             }
+        }
+    },
+    "exceptions": {
+        "cloud_not_logged_in": {
+            "message": "Tuya クラウドにログインしていません。まずクラウドの選択肢からデバイスを追加し、QR コードを読み取ってログインしてください。"
+        },
+        "cloud_query_failed": {
+            "message": "Tuya クラウドへの問い合わせに失敗しました: {error}"
+        },
+        "cloud_device_not_found": {
+            "message": "{device_id} に一致するデバイスは Tuya アカウントに見つかりませんでした。"
         }
     }
 }

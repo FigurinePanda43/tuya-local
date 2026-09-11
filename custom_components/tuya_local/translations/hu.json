@@ -107,6 +107,26 @@
         }
     },
     "services": {
+        "list_cloud_devices": {
+            "name": "Felhős eszközök listázása",
+            "description": "Kilistázza a Smart Life vagy Tuya fiókodban lévő eszközöket az azonosítójukkal és a helyi kulcsukkal együtt. Így nincs szükség Tuya IoT fejlesztői fiókra ahhoz, hogy megtaláld egy eszköz beállításához szükséges adatokat.",
+            "fields": {
+                "device_id": {
+                    "name": "Eszköz",
+                    "description": "Csak az ezzel az azonosítóval, uuid-val vagy node id-val rendelkező eszközt jelenítse meg. Hagyd üresen a fiók összes eszközének megjelenítéséhez."
+                }
+            }
+        },
+        "refresh_local_keys": {
+            "name": "Helyi kulcsok frissítése",
+            "description": "Lekéri az aktuális helyi kulcsokat a Smart Life vagy Tuya fiókodból, és frissíti azokat a beállított eszközöket, amelyek helyi kulcsa megváltozott. A Tuya minden újrapárosításkor megváltoztatja a helyi kulcsot az alkalmazásban, ami leállítja a helyi vezérlést.",
+            "fields": {
+                "dry_run": {
+                    "name": "Próbafuttatás",
+                    "description": "Csak jelezze, mely eszközök helyi kulcsa változott meg, a beállításuk módosítása nélkül."
+                }
+            }
+        },
         "send_learned_ir_command": {
             "name": "Tanult IR parancs küldése",
             "description": "Tanult IR parancs küldése egy infravörös emitternek, amelyet korábban a távirányító entitás tanult meg.",
@@ -1566,6 +1586,17 @@
                     }
                 }
             }
+        }
+    },
+    "exceptions": {
+        "cloud_not_logged_in": {
+            "message": "Nincs bejelentkezve a Tuya felhőbe. Először adj hozzá egy eszközt a felhő lehetőséggel, hogy beolvasd a QR-kódot és bejelentkezz."
+        },
+        "cloud_query_failed": {
+            "message": "Nem sikerült lekérdezni a Tuya felhőt: {error}"
+        },
+        "cloud_device_not_found": {
+            "message": "Nem található {device_id} azonosítójú eszköz a Tuya fiókban."
         }
     }
 }

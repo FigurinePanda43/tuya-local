@@ -20,3 +20,17 @@ send_learned_ir_command:
         entity:
           filter:
             domain: infrared
+
+list_cloud_devices:
+  fields:
+    device_id:
+      example: "bfa8c98xxxxxxxxxxxxxxx"
+      selector:
+        text:
+
+refresh_local_keys:
+  fields:
+    dry_run:
+      default: false
+      selector:
+        boolean:

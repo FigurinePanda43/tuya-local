@@ -26,6 +26,11 @@ from homeassistant.helpers.selector import (
 
 from . import DOMAIN
 from .cloud import Cloud
+from .cloud_session import (
+    async_clear_session,
+    async_restore_session,
+    async_save_session,
+)
 from .const import (
     API_PROTOCOL_VERSIONS,
     CONF_DEVICE_CID,
@@ -105,6 +110,13 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             mode = user_input.get("setup_mode")
             if mode == "cloud" or mode == "cloud_fresh_login":
+                if mode == "cloud_fresh_login":
+                    # Forget any saved session before asking for a new one
+                    await async_clear_session(self.hass)
+                else:
+                    # A login saved by an earlier session survives restarts,
+                    # so the QR code only needs to be scanned once.
+                    await async_restore_session(self.hass)
                 self.init_cloud()
                 try:
                     if mode == "cloud_fresh_login":
@@ -216,6 +228,10 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
                 ),
                 description_placeholders=placeholders,
             )
+
+        # Keep the login for future use, so that adding more devices or
+        # refreshing local keys later does not need another QR code scan.
+        await async_save_session(self.hass)
 
         self.__cloud_devices = await self.cloud.async_get_devices()
         if self.__discovered_device:

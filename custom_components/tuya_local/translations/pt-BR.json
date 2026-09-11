@@ -107,6 +107,26 @@
         }
     },
     "services": {
+        "list_cloud_devices": {
+            "name": "Listar dispositivos da nuvem",
+            "description": "Lista os dispositivos da sua conta Smart Life ou Tuya, incluindo os identificadores e as chaves locais. Assim você não precisa de uma conta de desenvolvedor Tuya IoT para encontrar as informações necessárias para configurar um dispositivo.",
+            "fields": {
+                "device_id": {
+                    "name": "Dispositivo",
+                    "description": "Informar apenas o dispositivo com este identificador, uuid ou node id. Deixe vazio para informar todos os dispositivos da conta."
+                }
+            }
+        },
+        "refresh_local_keys": {
+            "name": "Atualizar chaves locais",
+            "description": "Busca as chaves locais atuais da sua conta Smart Life ou Tuya e atualiza os dispositivos configurados cuja chave local mudou. A Tuya muda a chave local sempre que um dispositivo é pareado novamente no aplicativo, o que impede o controle local.",
+            "fields": {
+                "dry_run": {
+                    "name": "Simulação",
+                    "description": "Informar apenas quais dispositivos tiveram a chave local alterada, sem atualizar a configuração deles."
+                }
+            }
+        },
         "send_learned_ir_command": {
             "name": "Enviar comando IR aprendido",
             "description": "Enviar um comando remoto que foi aprendido anteriormente pela entidade remota para qualquer emissor infravermelho.",
@@ -1566,6 +1586,17 @@
                     }
                 }
             }
+        }
+    },
+    "exceptions": {
+        "cloud_not_logged_in": {
+            "message": "Não conectado à nuvem Tuya. Adicione primeiro um dispositivo usando a opção de nuvem para ler o código QR e fazer login."
+        },
+        "cloud_query_failed": {
+            "message": "Falha ao consultar a nuvem Tuya: {error}"
+        },
+        "cloud_device_not_found": {
+            "message": "Nenhum dispositivo correspondente a {device_id} foi encontrado na conta Tuya."
         }
     }
 }

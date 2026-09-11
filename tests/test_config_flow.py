@@ -18,6 +18,10 @@ from custom_components.tuya_local import (
     config_flow,
     get_device_unique_id,
 )
+from custom_components.tuya_local.cloud_session import (
+    async_restore_session,
+    async_save_session,
+)
 from custom_components.tuya_local.const import (
     CONF_DEVICE_CID,
     CONF_DEVICE_ID,
@@ -25,6 +29,7 @@ from custom_components.tuya_local.const import (
     CONF_POLL_ONLY,
     CONF_PROTOCOL_VERSION,
     CONF_TYPE,
+    DATA_AUTH_CACHE,
     DOMAIN,
 )
 
@@ -1128,6 +1133,54 @@ async def test_flow_scan_login_success_goes_to_choose_device(hass, mocker):
     )
     assert result["type"] == "form"
     assert result["step_id"] == "choose_device"
+
+
+@pytest.mark.asyncio
+async def test_flow_scan_login_saves_the_session(hass, mocker):
+    """Test a successful login is saved so it survives a restart."""
+    mock_cloud = mocker.MagicMock()
+    mock_cloud.async_get_qr_code = AsyncMock(return_value="QR_TOKEN")
+    mock_cloud.async_login = AsyncMock(return_value=True)
+    mock_cloud.async_get_devices = AsyncMock(return_value={})
+    mocker.patch(
+        "custom_components.tuya_local.config_flow.Cloud", return_value=mock_cloud
+    )
+
+    # The real Cloud stores its authentication here on login
+    hass.data[DOMAIN] = {DATA_AUTH_CACHE: {"user_code": "CODE"}}
+
+    flow = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": "cloud"}
+    )
+    await hass.config_entries.flow.async_configure(
+        flow["flow_id"], user_input={"user_code": "CODE"}
+    )
+    await hass.config_entries.flow.async_configure(flow["flow_id"], user_input={})
+
+    # Simulate a restart, which loses the in memory copy
+    hass.data[DOMAIN] = {}
+    assert await async_restore_session(hass) is True
+    assert hass.data[DOMAIN][DATA_AUTH_CACHE] == {"user_code": "CODE"}
+
+
+@pytest.mark.asyncio
+async def test_flow_user_cloud_fresh_login_forgets_saved_session(hass, mocker):
+    """Test a fresh login discards the saved session."""
+    mock_cloud = mocker.MagicMock()
+    mock_cloud.is_authenticated = False
+    mocker.patch(
+        "custom_components.tuya_local.config_flow.Cloud", return_value=mock_cloud
+    )
+    hass.data[DOMAIN] = {DATA_AUTH_CACHE: {"user_code": "CODE"}}
+    await async_save_session(hass)
+
+    flow = await hass.config_entries.flow.async_init(DOMAIN, context={"source": "user"})
+    await hass.config_entries.flow.async_configure(
+        flow["flow_id"], user_input={"setup_mode": "cloud_fresh_login"}
+    )
+
+    hass.data[DOMAIN] = {}
+    assert await async_restore_session(hass) is False
 
 
 @pytest.mark.asyncio

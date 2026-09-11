@@ -13,9 +13,11 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.exceptions import ConfigEntryNotReady
+from homeassistant.helpers.config_validation import config_entry_only_config_schema
 from homeassistant.helpers.device_registry import async_get as async_get_device_registry
 from homeassistant.helpers.entity_registry import async_get as async_get_entity_registry
 from homeassistant.helpers.entity_registry import async_migrate_entries
+from homeassistant.helpers.typing import ConfigType
 from homeassistant.util import slugify
 
 from .const import (
@@ -30,10 +32,22 @@ from .const import (
 from .device import async_delete_device, get_device_id, setup_device
 from .discovery import async_start_discovery, async_stop_discovery
 from .helpers.device_config import get_config
-from .services import async_setup_services
+from .services import async_setup_cloud_services, async_setup_services
 
 _LOGGER = logging.getLogger(__name__)
 NOT_FOUND = "Configuration file for %s not found"
+CONFIG_SCHEMA = config_entry_only_config_schema(DOMAIN)
+
+
+async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
+    """Set up the actions that are not tied to a particular device.
+
+    These are registered here rather than when a device is set up, so that
+    they remain available when devices fail to connect.  That is exactly the
+    situation that refresh_local_keys exists to repair.
+    """
+    async_setup_cloud_services(hass)
+    return True
 
 
 def replace_unique_ids(entity_entry, device_id, conf_file, replacements):

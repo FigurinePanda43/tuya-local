@@ -107,6 +107,26 @@
         }
     },
     "services": {
+        "list_cloud_devices": {
+            "name": "Listar dispositivos de la nube",
+            "description": "Lista los dispositivos de tu cuenta Smart Life o Tuya, incluidos sus identificadores y claves locales. Así no necesitas una cuenta de desarrollador de Tuya IoT para encontrar los datos necesarios para configurar un dispositivo.",
+            "fields": {
+                "device_id": {
+                    "name": "Dispositivo",
+                    "description": "Informar solo del dispositivo con este identificador, uuid o node id. Déjalo vacío para informar de todos los dispositivos de la cuenta."
+                }
+            }
+        },
+        "refresh_local_keys": {
+            "name": "Actualizar claves locales",
+            "description": "Obtiene las claves locales actuales de tu cuenta Smart Life o Tuya y actualiza los dispositivos configurados cuya clave local haya cambiado. Tuya cambia la clave local cada vez que se vuelve a emparejar un dispositivo en la aplicación, lo que impide el control local.",
+            "fields": {
+                "dry_run": {
+                    "name": "Simulación",
+                    "description": "Informar solo de qué dispositivos tienen la clave local cambiada, sin actualizar su configuración."
+                }
+            }
+        },
         "send_learned_ir_command": {
             "name": "Enviar comando IR aprendido",
             "description": "Enviar un comando remoto que fue aprendido previamente por la entidad remota a cualquier emisor infrarrojo.",
@@ -1566,6 +1586,17 @@
                     }
                 }
             }
+        }
+    },
+    "exceptions": {
+        "cloud_not_logged_in": {
+            "message": "No has iniciado sesión en la nube de Tuya. Añade primero un dispositivo con la opción de nube para escanear el código QR e iniciar sesión."
+        },
+        "cloud_query_failed": {
+            "message": "Error al consultar la nube de Tuya: {error}"
+        },
+        "cloud_device_not_found": {
+            "message": "No se ha encontrado ningún dispositivo con {device_id} en la cuenta de Tuya."
         }
     }
 }

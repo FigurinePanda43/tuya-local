@@ -107,6 +107,26 @@
         }
     },
     "services": {
+        "list_cloud_devices": {
+            "name": "Llista els dispositius del núvol",
+            "description": "Llista els dispositius del teu compte Smart Life o Tuya, inclosos els identificadors i les claus locals. Així no necessites un compte de desenvolupador de Tuya IoT per trobar la informació necessària per configurar un dispositiu.",
+            "fields": {
+                "device_id": {
+                    "name": "Dispositiu",
+                    "description": "Informa només del dispositiu amb aquest identificador, uuid o node id. Deixa-ho buit per informar de tots els dispositius del compte."
+                }
+            }
+        },
+        "refresh_local_keys": {
+            "name": "Actualitza les claus locals",
+            "description": "Obté les claus locals actuals del teu compte Smart Life o Tuya i actualitza els dispositius configurats la clau local dels quals ha canviat. Tuya canvia la clau local cada vegada que es torna a emparellar un dispositiu a l'aplicació, cosa que impedeix el control local.",
+            "fields": {
+                "dry_run": {
+                    "name": "Simulació",
+                    "description": "Informa només de quins dispositius tenen la clau local canviada, sense actualitzar-ne la configuració."
+                }
+            }
+        },
         "send_learned_ir_command": {
             "name": "Enviar comando IR aprendido",
             "description": "Envía un comando IR que ha sido aprendido por un dispositivo Tuya Local compatible.",
@@ -1566,6 +1586,17 @@
                     }
                 }
             }
+        }
+    },
+    "exceptions": {
+        "cloud_not_logged_in": {
+            "message": "No has iniciat la sessió al núvol de Tuya. Afegeix primer un dispositiu amb l'opció de núvol per escanejar el codi QR i iniciar la sessió."
+        },
+        "cloud_query_failed": {
+            "message": "No s'ha pogut consultar el núvol de Tuya: {error}"
+        },
+        "cloud_device_not_found": {
+            "message": "No s'ha trobat cap dispositiu que coincideixi amb {device_id} al compte de Tuya."
         }
     }
 }

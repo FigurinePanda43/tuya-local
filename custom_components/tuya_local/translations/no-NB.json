@@ -107,6 +107,26 @@
         }
     },
     "services": {
+        "list_cloud_devices": {
+            "name": "List opp skyenheter",
+            "description": "Lister opp enhetene i Smart Life- eller Tuya-kontoen din, inkludert enhets-id-ene og de lokale nøklene deres. Dermed trenger du ingen Tuya IoT-utviklerkonto for å finne opplysningene som trengs for å sette opp en enhet.",
+            "fields": {
+                "device_id": {
+                    "name": "Enhet",
+                    "description": "Rapporter bare enheten med denne enhets-id-en, uuid-en eller node-id-en. La stå tomt for å rapportere alle enhetene i kontoen."
+                }
+            }
+        },
+        "refresh_local_keys": {
+            "name": "Oppdater lokale nøkler",
+            "description": "Henter de gjeldende lokale nøklene fra Smart Life- eller Tuya-kontoen din og oppdaterer de oppsatte enhetene som har fått endret lokal nøkkel. Tuya endrer den lokale nøkkelen hver gang en enhet pares på nytt i appen, noe som gjør at lokal styring slutter å virke.",
+            "fields": {
+                "dry_run": {
+                    "name": "Prøvekjøring",
+                    "description": "Rapporter bare hvilke enheter som har fått endret lokal nøkkel, uten å oppdatere oppsettet deres."
+                }
+            }
+        },
         "send_learned_ir_command": {
             "name": "Send lært IR-fjernkontrollsignal",
             "description": "Send en fjernkontrollkommando som tidligere ble lært av fjernkontrollentiteten til en hvilken som helst infrarød sender.",
@@ -1566,6 +1586,17 @@
                     }
                 }
             }
+        }
+    },
+    "exceptions": {
+        "cloud_not_logged_in": {
+            "message": "Ikke logget inn i Tuya-skyen. Legg først til en enhet med skyvalget for å skanne QR-koden og logge inn."
+        },
+        "cloud_query_failed": {
+            "message": "Klarte ikke å spørre Tuya-skyen: {error}"
+        },
+        "cloud_device_not_found": {
+            "message": "Fant ingen enhet som samsvarer med {device_id} i Tuya-kontoen."
         }
     }
 }

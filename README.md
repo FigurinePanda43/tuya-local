@@ -60,7 +60,15 @@ The first choice essentially automates all the manual steps of the second and wi
 
 The cloud assisted choice will guide you through authenticating, choosing a device to add from the list of devices associated with your Tuya account, locate the device on your local subnet and then drop you into [Stage One](#stage-one) with fully populated data necessary to move forward to [Stage Two](#stage-two).
 
-The Tuya authentication token expires after a small number of hours and so is not saved by the integration. But, as long as you don't restart Home Assistant, this allows you to add multiple devices one after another only needing to authenticate once for the first one.
+The Tuya login is saved by the integration, so you only need to scan the QR
+code once, and can then add further devices without authenticating again, even
+after restarting Home Assistant. The token does eventually expire, in which case
+you will be asked to scan a new QR code. Choosing "cloud fresh login" instead of
+"cloud" discards the saved login, which is what you need if you want to switch
+to a different Tuya account.
+
+The saved login is also what the [cloud actions](#cloud-actions) below use to
+look up device ids and local keys without the Tuya IoT developer portal.
 
 ### Stage One
 
@@ -127,6 +135,58 @@ device.  This will be used as the base for the entity names in Home
 Assistant.
 
 ---
+
+## Cloud actions
+
+Two actions use the saved Tuya cloud login to get device information that
+otherwise requires a Tuya IoT developer account. Both need you to have logged
+in at least once through the cloud assisted config flow above.
+
+### `tuya_local.list_cloud_devices`
+
+Returns the devices in your Smart Life or Tuya account, with the `local_key`,
+`id`, `uuid`, `node_id`, `product_id`, `product_name`, `category`, `ip`,
+`online` and `support_local` reported by the cloud, plus `configured` saying
+whether the device is already set up in this integration.
+
+Run it from **Developer tools** > **Actions**, in YAML mode, and the response
+is shown in the UI:
+
+```yaml
+action: tuya_local.list_cloud_devices
+data: {}
+```
+
+Pass a `device_id` (which also matches a uuid or node id) to report a single
+device:
+
+```yaml
+action: tuya_local.list_cloud_devices
+data:
+  device_id: bfa8c98xxxxxxxxxxxxxxx
+```
+
+This is useful for devices that are not yet supported here, or for setting up
+another local integration, since it gives you the same information the
+developer portal would.
+
+### `tuya_local.refresh_local_keys`
+
+Tuya changes the local key each time a device is paired in the app, which
+silently stops local control from working. This action fetches the current keys
+from your account and updates the configuration of any device whose key has
+changed:
+
+```yaml
+action: tuya_local.refresh_local_keys
+data:
+  dry_run: false
+```
+
+The response lists the devices under `updated`, `unchanged` and `not_found`
+(the last being configured devices that are not in the cloud account). Set
+`dry_run: true` to see which keys have changed without altering the
+configuration.
 
 ## Device support
 

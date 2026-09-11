@@ -107,6 +107,26 @@
         }
     },
     "services": {
+        "list_cloud_devices": {
+            "name": "Vypsat zařízení z cloudu",
+            "description": "Vypíše zařízení z vašeho účtu Smart Life nebo Tuya včetně jejich identifikátorů a místních klíčů. Nepotřebujete tak vývojářský účet Tuya IoT, abyste zjistili údaje potřebné k nastavení zařízení.",
+            "fields": {
+                "device_id": {
+                    "name": "Zařízení",
+                    "description": "Vypsat pouze zařízení s tímto identifikátorem, uuid nebo node id. Ponechte prázdné pro vypsání všech zařízení účtu."
+                }
+            }
+        },
+        "refresh_local_keys": {
+            "name": "Obnovit místní klíče",
+            "description": "Načte aktuální místní klíče z vašeho účtu Smart Life nebo Tuya a aktualizuje nastavená zařízení, kterým se místní klíč změnil. Tuya mění místní klíč při každém novém spárování zařízení v aplikaci, což znemožní místní ovládání.",
+            "fields": {
+                "dry_run": {
+                    "name": "Nanečisto",
+                    "description": "Pouze vypsat, kterým zařízením se změnil místní klíč, bez úpravy jejich nastavení."
+                }
+            }
+        },
         "send_learned_ir_command": {
             "name": "Odeslat naučený IR příkaz",
             "description": "Odeslat dálkový příkaz, který byl dříve naučen entitou dálkového ovládání, na jakýkoli infračervený vysílač.",
@@ -1566,6 +1586,17 @@
                     }
                 }
             }
+        }
+    },
+    "exceptions": {
+        "cloud_not_logged_in": {
+            "message": "Nejste přihlášeni ke cloudu Tuya. Nejprve přidejte zařízení pomocí volby cloud, načtěte QR kód a přihlaste se."
+        },
+        "cloud_query_failed": {
+            "message": "Dotaz na cloud Tuya se nezdařil: {error}"
+        },
+        "cloud_device_not_found": {
+            "message": "V účtu Tuya nebylo nalezeno žádné zařízení odpovídající {device_id}."
         }
     }
 }

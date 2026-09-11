@@ -107,6 +107,26 @@
         }
     },
     "services": {
+        "list_cloud_devices": {
+            "name": "Listează dispozitivele din cloud",
+            "description": "Listează dispozitivele din contul tău Smart Life sau Tuya, inclusiv identificatorii și cheile locale. Astfel nu ai nevoie de un cont de dezvoltator Tuya IoT pentru a găsi informațiile necesare configurării unui dispozitiv.",
+            "fields": {
+                "device_id": {
+                    "name": "Dispozitiv",
+                    "description": "Raportează doar dispozitivul cu acest identificator, uuid sau node id. Lasă gol pentru a raporta toate dispozitivele din cont."
+                }
+            }
+        },
+        "refresh_local_keys": {
+            "name": "Reîmprospătează cheile locale",
+            "description": "Preia cheile locale actuale din contul tău Smart Life sau Tuya și actualizează dispozitivele configurate a căror cheie locală s-a schimbat. Tuya schimbă cheia locală de fiecare dată când un dispozitiv este împerecheat din nou în aplicație, ceea ce oprește controlul local.",
+            "fields": {
+                "dry_run": {
+                    "name": "Simulare",
+                    "description": "Raportează doar ce dispozitive au cheia locală schimbată, fără a le actualiza configurația."
+                }
+            }
+        },
         "send_learned_ir_command": {
             "name": "Trimite comandă IR învățată",
             "description": "Trimite o comandă de telecomandă care a fost învățată anterior de entitatea de telecomandă către orice emițător infraroșu.",
@@ -1566,6 +1586,17 @@
                     }
                 }
             }
+        }
+    },
+    "exceptions": {
+        "cloud_not_logged_in": {
+            "message": "Nu ești autentificat în cloudul Tuya. Adaugă mai întâi un dispozitiv folosind opțiunea cloud pentru a scana codul QR și a te autentifica."
+        },
+        "cloud_query_failed": {
+            "message": "Interogarea cloudului Tuya a eșuat: {error}"
+        },
+        "cloud_device_not_found": {
+            "message": "Nu a fost găsit niciun dispozitiv care să corespundă cu {device_id} în contul Tuya."
         }
     }
 }

@@ -107,6 +107,26 @@
         }
     },
     "services": {
+        "list_cloud_devices": {
+            "name": "Wyświetl urządzenia z chmury",
+            "description": "Wyświetla urządzenia z Twojego konta Smart Life lub Tuya wraz z ich identyfikatorami i kluczami lokalnymi. Dzięki temu nie potrzebujesz konta dewelopera Tuya IoT, aby znaleźć dane potrzebne do skonfigurowania urządzenia.",
+            "fields": {
+                "device_id": {
+                    "name": "Urządzenie",
+                    "description": "Pokaż tylko urządzenie o tym identyfikatorze, uuid lub node id. Pozostaw puste, aby pokazać wszystkie urządzenia z konta."
+                }
+            }
+        },
+        "refresh_local_keys": {
+            "name": "Odśwież klucze lokalne",
+            "description": "Pobiera aktualne klucze lokalne z Twojego konta Smart Life lub Tuya i aktualizuje skonfigurowane urządzenia, których klucz lokalny uległ zmianie. Tuya zmienia klucz lokalny przy każdym ponownym sparowaniu urządzenia w aplikacji, co uniemożliwia sterowanie lokalne.",
+            "fields": {
+                "dry_run": {
+                    "name": "Symulacja",
+                    "description": "Pokaż tylko, które urządzenia mają zmieniony klucz lokalny, bez aktualizowania ich konfiguracji."
+                }
+            }
+        },
         "send_learned_ir_command": {
             "name": "Wyślij nauczoną komendę IR",
             "description": "Wyślij zdalną komendę, która została wcześniej nauczona przez encję pilota do dowolnego emitera podczerwieni.",
@@ -1566,6 +1586,17 @@
                     }
                 }
             }
+        }
+    },
+    "exceptions": {
+        "cloud_not_logged_in": {
+            "message": "Brak zalogowania do chmury Tuya. Najpierw dodaj urządzenie przy użyciu opcji chmury, aby zeskanować kod QR i się zalogować."
+        },
+        "cloud_query_failed": {
+            "message": "Nie udało się odpytać chmury Tuya: {error}"
+        },
+        "cloud_device_not_found": {
+            "message": "Nie znaleziono urządzenia pasującego do {device_id} na koncie Tuya."
         }
     }
 }

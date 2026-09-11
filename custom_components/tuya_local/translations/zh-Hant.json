@@ -107,6 +107,26 @@
         }
     },
     "services": {
+        "list_cloud_devices": {
+            "name": "列出雲端裝置",
+            "description": "列出您的 Smart Life 或塗鴉帳戶中的裝置，包括裝置 ID 與本機金鑰。如此便不需要塗鴉 IoT 開發者帳戶，即可找到設定裝置所需的資訊。",
+            "fields": {
+                "device_id": {
+                    "name": "裝置",
+                    "description": "僅顯示具有該裝置 ID、uuid 或 node id 的裝置。留空則顯示帳戶中的所有裝置。"
+                }
+            }
+        },
+        "refresh_local_keys": {
+            "name": "重新整理本機金鑰",
+            "description": "從您的 Smart Life 或塗鴉帳戶取得目前的本機金鑰，並更新本機金鑰已變更的已設定裝置。每次在應用程式中重新配對裝置時，塗鴉都會變更本機金鑰，導致本機控制失效。",
+            "fields": {
+                "dry_run": {
+                    "name": "試執行",
+                    "description": "僅回報哪些裝置的本機金鑰已變更，而不更新其設定。"
+                }
+            }
+        },
         "send_learned_ir_command": {
             "name": "發送學習到的紅外線命令",
             "description": "將先前由遙控實體學習到的遠程命令發送到任何紅外線發射器。",
@@ -1566,6 +1586,17 @@
                     }
                 }
             }
+        }
+    },
+    "exceptions": {
+        "cloud_not_logged_in": {
+            "message": "尚未登入塗鴉雲端。請先使用雲端選項新增裝置，掃描 QR 碼並登入。"
+        },
+        "cloud_query_failed": {
+            "message": "查詢塗鴉雲端失敗：{error}"
+        },
+        "cloud_device_not_found": {
+            "message": "在塗鴉帳戶中找不到與 {device_id} 相符的裝置。"
         }
     }
 }

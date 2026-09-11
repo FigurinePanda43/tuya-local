@@ -107,6 +107,26 @@
         }
     },
     "services": {
+        "list_cloud_devices": {
+            "name": "Daftar perangkat cloud",
+            "description": "Menampilkan daftar perangkat di akun Smart Life atau Tuya Anda, termasuk id perangkat dan kunci lokalnya. Dengan begitu Anda tidak memerlukan akun pengembang Tuya IoT untuk menemukan informasi yang dibutuhkan untuk menyiapkan perangkat.",
+            "fields": {
+                "device_id": {
+                    "name": "Perangkat",
+                    "description": "Hanya tampilkan perangkat dengan id perangkat, uuid, atau node id ini. Kosongkan untuk menampilkan semua perangkat di akun."
+                }
+            }
+        },
+        "refresh_local_keys": {
+            "name": "Segarkan kunci lokal",
+            "description": "Mengambil kunci lokal terbaru dari akun Smart Life atau Tuya Anda, dan memperbarui perangkat terkonfigurasi yang kunci lokalnya berubah. Tuya mengubah kunci lokal setiap kali perangkat dipasangkan ulang di aplikasi, sehingga kendali lokal berhenti bekerja.",
+            "fields": {
+                "dry_run": {
+                    "name": "Uji coba",
+                    "description": "Hanya laporkan perangkat mana yang kunci lokalnya berubah, tanpa memperbarui konfigurasinya."
+                }
+            }
+        },
         "send_learned_ir_command": {
             "name": "Kirim perintah IR yang dipelajari",
             "description": "Kirim perintah remote yang sebelumnya dipelajari oleh entitas remote ke emitter inframerah mana pun.",
@@ -1566,6 +1586,17 @@
                     }
                 }
             }
+        }
+    },
+    "exceptions": {
+        "cloud_not_logged_in": {
+            "message": "Belum masuk ke cloud Tuya. Tambahkan dulu sebuah perangkat dengan pilihan cloud untuk memindai kode QR dan masuk."
+        },
+        "cloud_query_failed": {
+            "message": "Gagal meminta data dari cloud Tuya: {error}"
+        },
+        "cloud_device_not_found": {
+            "message": "Tidak ada perangkat yang cocok dengan {device_id} di akun Tuya."
         }
     }
 }

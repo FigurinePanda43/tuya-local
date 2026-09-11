@@ -107,6 +107,26 @@
         }
     },
     "services": {
+        "list_cloud_devices": {
+            "name": "列出云端设备",
+            "description": "列出您的 Smart Life 或涂鸦账户中的设备，包括设备 ID 和本地密钥。这样便无需涂鸦 IoT 开发者账户即可找到配置设备所需的信息。",
+            "fields": {
+                "device_id": {
+                    "name": "设备",
+                    "description": "仅显示具有该设备 ID、uuid 或 node id 的设备。留空则显示账户中的所有设备。"
+                }
+            }
+        },
+        "refresh_local_keys": {
+            "name": "刷新本地密钥",
+            "description": "从您的 Smart Life 或涂鸦账户获取当前的本地密钥，并更新本地密钥已更改的已配置设备。每次在应用中重新配对设备时，涂鸦都会更改本地密钥，从而导致本地控制失效。",
+            "fields": {
+                "dry_run": {
+                    "name": "试运行",
+                    "description": "仅报告哪些设备的本地密钥已更改，而不更新其配置。"
+                }
+            }
+        },
         "send_learned_ir_command": {
             "name": "发送学习到的红外命令",
             "description": "发送之前由遥控器实体学习的远程命令到任何红外发射器。",
@@ -1566,6 +1586,17 @@
                     }
                 }
             }
+        }
+    },
+    "exceptions": {
+        "cloud_not_logged_in": {
+            "message": "尚未登录涂鸦云。请先使用云端选项添加设备，扫描二维码并登录。"
+        },
+        "cloud_query_failed": {
+            "message": "查询涂鸦云失败：{error}"
+        },
+        "cloud_device_not_found": {
+            "message": "在涂鸦账户中未找到与 {device_id} 匹配的设备。"
         }
     }
 }

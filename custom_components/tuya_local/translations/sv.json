@@ -107,6 +107,26 @@
         }
     },
     "services": {
+        "list_cloud_devices": {
+            "name": "Lista molnenheter",
+            "description": "Listar enheterna i ditt Smart Life- eller Tuya-konto, inklusive deras enhets-id och lokala nycklar. Du behöver därmed inget Tuya IoT-utvecklarkonto för att hitta uppgifterna som krävs för att lägga till en enhet.",
+            "fields": {
+                "device_id": {
+                    "name": "Enhet",
+                    "description": "Rapportera bara enheten med detta enhets-id, uuid eller node id. Lämna tomt för att rapportera alla enheter i kontot."
+                }
+            }
+        },
+        "refresh_local_keys": {
+            "name": "Uppdatera lokala nycklar",
+            "description": "Hämtar de aktuella lokala nycklarna från ditt Smart Life- eller Tuya-konto och uppdaterar de konfigurerade enheter vars lokala nyckel har ändrats. Tuya byter lokal nyckel varje gång en enhet paras ihop på nytt i appen, vilket gör att lokal styrning slutar fungera.",
+            "fields": {
+                "dry_run": {
+                    "name": "Testkörning",
+                    "description": "Rapportera bara vilka enheter som har en ändrad lokal nyckel, utan att uppdatera deras konfiguration."
+                }
+            }
+        },
         "send_learned_ir_command": {
             "name": "Skicka inlärd IR-kommandotjänst",
             "description": "Skicka ett fjärrkommando som tidigare lärts in av fjärrenheten till vilken infraröd sändare som helst.",
@@ -1566,6 +1586,17 @@
                     }
                 }
             }
+        }
+    },
+    "exceptions": {
+        "cloud_not_logged_in": {
+            "message": "Inte inloggad i Tuya-molnet. Lägg först till en enhet med molnalternativet för att skanna QR-koden och logga in."
+        },
+        "cloud_query_failed": {
+            "message": "Kunde inte fråga Tuya-molnet: {error}"
+        },
+        "cloud_device_not_found": {
+            "message": "Ingen enhet som matchar {device_id} hittades i Tuya-kontot."
         }
     }
 }
