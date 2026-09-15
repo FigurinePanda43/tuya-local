@@ -1,6 +1,20 @@
 ![logo](custom_components/tuya_local/brand/icon.svg) 
 
-Please report any [issues](https://github.com/make-all/tuya-local/issues) and feel free to raise [pull requests](https://github.com/make-all/tuya-local/pulls).
+> **This is a personal fork of [make-all/tuya-local](https://github.com/make-all/tuya-local).**
+> On top of the upstream integration it adds:
+>
+> - the Tuya cloud login is saved, so the QR code only needs to be scanned once
+>   rather than once per Home Assistant run;
+> - a `tuya_local.list_cloud_devices` action, which reports the device id and
+>   local key of every device in your Smart Life or Tuya account, so the Tuya
+>   IoT developer portal is no longer needed to find them;
+> - a `tuya_local.refresh_local_keys` action, which repairs configured devices
+>   after Tuya has changed their local key.
+>
+> Both are described under [Cloud actions](#cloud-actions) below. Everything
+> else is unchanged from upstream.
+
+Please report any [issues](https://github.com/make-all/tuya-local/issues) and feel free to raise [pull requests](https://github.com/make-all/tuya-local/pulls) with the upstream project, for anything that is not specific to this fork.
 [Many others](https://github.com/make-all/tuya-local/blob/main/ACKNOWLEDGEMENTS.md) have contributed their help already.
 
 [![BuyMeCoffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/jasonrumney)
@@ -34,14 +48,36 @@ easier to set up using that, or another more recent fork, as an alternative.
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/hacs/integration)
 
-Installation is easiest via the [Home Assistant Community Store
-(HACS)](https://hacs.xyz/), which is the best place to get third-party
-integrations for Home Assistant. Once you have HACS set up, simply click the button below (requires My Homeassistant configured) or
-follow the [instructions for adding a custom
-repository](https://hacs.xyz/docs/faq/custom_repositories) and then
-the integration will be available to install like any other.
+### Via HACS
 
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=make-all&repository=tuya-local&category=integration)
+The [Home Assistant Community Store (HACS)](https://hacs.xyz/) is the easiest
+way to install third-party integrations. This fork is not part of the HACS
+default store, so it has to be added as a [custom
+repository](https://hacs.xyz/docs/faq/custom_repositories): in HACS, open the
+menu in the top right corner, choose **Custom repositories**, enter
+`https://github.com/FigurinePanda43/tuya-local` and select the **Integration**
+category. Tuya Local can then be downloaded like any other HACS integration.
+The button below does the same thing, if you have My Home Assistant configured.
+
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=FigurinePanda43&repository=tuya-local&category=integration)
+
+Expect the download to take a while. Repositories in the HACS default store are
+pre-indexed, but a custom repository is not, so HACS fetches the integration
+file by file, and this one is made up of more than 1800 files, nearly all of
+them device configurations.
+
+### Manually
+
+If the HACS download does not complete, the integration can be installed by
+hand instead. Copy the `custom_components/tuya_local` directory of this
+repository into the `custom_components` directory of your Home Assistant
+configuration, so that you end up with
+`/config/custom_components/tuya_local/manifest.json`, then restart Home
+Assistant. Delete any previous `tuya_local` directory first rather than copying
+over it, so that no stale files are left behind.
+
+Installing this way means HACS will not offer updates for the integration, so
+repeat the copy to update it.
 
 ## Configuration
 
@@ -88,7 +124,7 @@ When using the cloud assisted config, the device id and local key will be pre-fi
 
 &nbsp;&nbsp;&nbsp;&nbsp;_(string) (Required)_ Local key retrieved
 
-Note that each time you pair the device, the local key changes, so if you obtained the local key using the instructions below, then re-paired with your manufacturer's app, then the key will have changed already.
+Note that each time you pair the device, the local key changes, so if you obtained the local key using the instructions below, then re-paired with your manufacturer's app, then the key will have changed already. For a device that is already set up, the [`tuya_local.refresh_local_keys`](#tuya_localrefresh_local_keys) action will fetch the new key and update the configuration for you.
 
 #### protocol_version
 
